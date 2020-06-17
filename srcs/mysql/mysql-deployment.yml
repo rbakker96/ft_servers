@@ -1,17 +1,4 @@
 apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secret
-type: Opaque
-data:
-  MYSQL_ROOT_PASSWORD: YWRtaW4= #admin
-  MYSQL_USER: YWRtaW4= #admin
-  MYSQL_PASSWORD: YWRtaW4= #admin
-  MYSQL_DATABASE: d29yZHByZXNz #wordpress
-
----
-
-apiVersion: v1
 kind: Service
 metadata:
   name: mysql-service
@@ -42,7 +29,7 @@ spec:
       containers:
       - envFrom:
         - secretRef:
-              name: mysql-secret        
+              name: system-secret        
         name: mysql
         image: "mysql:5.6"
         imagePullPolicy: IfNotPresent

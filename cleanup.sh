@@ -9,6 +9,10 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
+echo -e "${Yellow}---------------------------- Secret ------------------------------${Color_Off}"
+kubectl delete secrets/system-secret
+echo -e "\n"
+
 echo -e "${Yellow}---------------------------- Nginx ------------------------------${Color_Off}"
 kubectl delete services nginx-server
 kubectl delete deployment nginx-deployment
@@ -44,7 +48,7 @@ kubectl delete deployment/grafana-deployment
 kubectl delete service/grafana-service
 kubectl delete secrets/grafana-secret
 echo -e "\n"
-
+ft
 echo -e "${Yellow}-------------------------- InfluxDB -----------------------------${Color_Off}"
 kubectl delete deployment/influxdb-deployment
 kubectl delete service/influxdb-service

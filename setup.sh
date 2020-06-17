@@ -15,6 +15,10 @@ White='\033[0;37m'        # White
 # Set environment to minikube
 eval $(minikube docker-env)
 
+echo -e "${Purple}--------------------------- Secret ------------------------------${Color_Off}"
+kubectl create -f srcs/secret/system_secret.yml
+echo -e "\n"
+
 echo -e "${Purple}--------------------------- Nginx ------------------------------${Color_Off}"
 cd srcs/nginx
 docker build -t nginx_rbakker .
