@@ -4,10 +4,10 @@ metadata:
   name: mysql-secret
 type: Opaque
 data:
-  dbname: d29yZHByZXNz #wordpress
-  dbuser: YWRtaW4= #admin
-  dbpass: YWRtaW4= #admin
-  dbrootpass: YWRtaW4= #admin
+  MYSQL_ROOT_PASSWORD: YWRtaW4= #admin
+  MYSQL_USER: YWRtaW4= #admin
+  MYSQL_PASSWORD: YWRtaW4= #admin
+  MYSQL_DATABASE: d29yZHByZXNz #wordpress
 
 ---
 
@@ -31,45 +31,28 @@ metadata:
   name: mysql-deployment
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
   template:
     metadata:
       labels:
         app: mysql
     spec:
       containers:
-        - name: mysql
-          image: "mysql:5.6"
-          ports:
+      - envFrom:
+        - secretRef:
+              name: mysql-secret        
+        name: mysql
+        image: "mysql:5.6"
+        imagePullPolicy: IfNotPresent
+        ports:
           - containerPort: 3306
-          volumeMounts:
+        volumeMounts:
           - mountPath: "/var/lib/mysql"
-            name: mysql-pd
-          env:
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-secret
-                key: dbrootpass
-          - name: MYSQL_USER
-            valueFrom:
-              secretKeyRef:
-                name: mysql-secret
-                key: dbuser
-          - name: MYSQL_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-secret
-                key: dbpass
-          - name: MYSQL_DATABASE
-            valueFrom:
-              secretKeyRef:
-                name: mysql-secret
-                key: dbname
+            name: mysql-pd   
       volumes:
           - name: mysql-pd
             persistentVolumeClaim:
               claimName: mysql-pvc
-  selector:
-    matchLabels:
-      app: mysql
-
+ 

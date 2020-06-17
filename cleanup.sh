@@ -9,7 +9,7 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
-echo -e "${Yellow}--------------------------- Nginx ------------------------------${Color_Off}"
+echo -e "${Yellow}---------------------------- Nginx ------------------------------${Color_Off}"
 kubectl delete services nginx-server
 kubectl delete deployment nginx-deployment
 echo -e "\n"
@@ -27,23 +27,34 @@ kubectl delete pvc/mysql-pvc
 kubectl delete pv/mysql-pv
 echo -e "\n"
 
-echo -e "${Yellow}---------------------- Cluster overview -------------------------${Color_Off}"
+echo -e "${Yellow}-------------------------- Wordpress ---------------------------${Color_Off}"
 kubectl delete deployment/wordpress-deployment
 kubectl delete services wordpress-service
+kubectl delete secret/wordpress-secret
 echo -e "\n"
 
 echo -e "${Yellow}------------------------- Phpmyadmin ----------------------------${Color_Off}"
 kubectl delete deployment/phpmyadmin-deployment
 kubectl delete service/phpmyadmin-service
+kubectl delete secret/phpmyadmin-secret
 echo -e "\n"
 
-echo -e "${Yellow}------------------------- InfluxDB ----------------------------${Color_Off}"
+echo -e "${Yellow}-------------------------- Grafana ------------------------------${Color_Off}"
+kubectl delete deployment/grafana-deployment
+kubectl delete service/grafana-service
+kubectl delete secrets/grafana-secret
+echo -e "\n"
+
+echo -e "${Yellow}-------------------------- InfluxDB -----------------------------${Color_Off}"
 kubectl delete deployment/influxdb-deployment
 kubectl delete service/influxdb-service
 kubectl delete secrets/influxdb-secret
+
+kubectl delete pvc/influxdb-pvc
+kubectl delete pv/influxdb-pv
 echo -e "\n"
 
-echo -e "${Yellow}------------------------- telegraf ----------------------------${Color_Off}"
+echo -e "${Yellow}-------------------------- Telegraf -----------------------------${Color_Off}"
 kubectl delete deployment/telegraf-deployment
 kubectl delete service/telegraf-service
 kubectl delete secret/telegraf-secret

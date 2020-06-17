@@ -24,7 +24,7 @@ echo -e "\n"
 
 echo -e "${Purple}-------------------- Ingress controller -------------------------${Color_Off}"
 minikube addons enable ingress
-sleep 30
+sleep 45
 kubectl create -f srcs/ingress/ingress-deployment.yml
 echo -e "\n"
 
@@ -47,7 +47,7 @@ kubectl create -f srcs/influxDB/influxdb-pvc.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Telegraf -----------------------------${Color_Off}"
-kubectl create -f srcs/telegraf/telegraf-deployment.yml
+#kubectl create -f srcs/telegraf/telegraf-deployment.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Grafana -----------------------------${Color_Off}"
@@ -55,6 +55,7 @@ kubectl create -f srcs/grafana/grafana-deployment.yml
 echo -e "\n"
 
 echo -e "${Green}---------------------- Cluster overview --------------------------${Color_Off}"
+sleep 30
 kubectl get all
 echo -e "\n"
 echo -e "${Green}Go to $(minikube ip)${Color_Off}"
