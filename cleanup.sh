@@ -23,7 +23,6 @@ kubectl delete ingress/ingress-deployment
 echo -e "\n"
 
 echo -e "${Yellow}--------------------------- Mysql -------------------------------${Color_Off}"
-kubectl delete secrets/mysql-secret
 kubectl delete deployment/mysql-deployment
 kubectl delete services/mysql-service
 
@@ -34,25 +33,21 @@ echo -e "\n"
 echo -e "${Yellow}-------------------------- Wordpress ---------------------------${Color_Off}"
 kubectl delete deployment/wordpress-deployment
 kubectl delete services wordpress-service
-kubectl delete secret/wordpress-secret
 echo -e "\n"
 
 echo -e "${Yellow}------------------------- Phpmyadmin ----------------------------${Color_Off}"
 kubectl delete deployment/phpmyadmin-deployment
 kubectl delete service/phpmyadmin-service
-kubectl delete secret/phpmyadmin-secret
 echo -e "\n"
 
 echo -e "${Yellow}-------------------------- Grafana ------------------------------${Color_Off}"
 kubectl delete deployment/grafana-deployment
 kubectl delete service/grafana-service
-kubectl delete secrets/grafana-secret
 echo -e "\n"
 ft
 echo -e "${Yellow}-------------------------- InfluxDB -----------------------------${Color_Off}"
 kubectl delete deployment/influxdb-deployment
 kubectl delete service/influxdb-service
-kubectl delete secrets/influxdb-secret
 
 kubectl delete pvc/influxdb-pvc
 kubectl delete pv/influxdb-pv
@@ -61,7 +56,6 @@ echo -e "\n"
 echo -e "${Yellow}-------------------------- Telegraf -----------------------------${Color_Off}"
 kubectl delete deployment/telegraf-deployment
 kubectl delete service/telegraf-service
-kubectl delete secret/telegraf-secret
 echo -e "\n"
 
 echo -e "${Green}Cluster cleaned${Color_Off}"
