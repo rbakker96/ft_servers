@@ -44,7 +44,7 @@ echo -e "${Yellow}-------------------------- Grafana ---------------------------
 kubectl delete deployment/grafana-deployment
 kubectl delete service/grafana-service
 echo -e "\n"
-ft
+
 echo -e "${Yellow}-------------------------- InfluxDB -----------------------------${Color_Off}"
 kubectl delete deployment/influxdb-deployment
 kubectl delete service/influxdb-service

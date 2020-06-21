@@ -10,7 +10,7 @@ Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
 # Start cluster
-#minikube start --vm-driver virtualbox --extra-config=apiserver.service-node-port-range=80-6000
+#minikube start --vm-driver virtualbox --extra-config=apiserver.service-node-port-range=80-10000
 
 # Set environment to minikube
 eval $(minikube docker-env)
@@ -46,7 +46,7 @@ kubectl create -f srcs/wordpress/wordpress-deployment.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- InfluxDB -----------------------------${Color_Off}"
-kubectl create -f srcs/influxDB/influxdb-deployment.yml 
+kubectl create -f srcs/influxDB/influxdb-deployment.yml
 kubectl create -f srcs/influxDB/influxdb-pvc.yml
 echo -e "\n"
 
