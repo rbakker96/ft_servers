@@ -15,24 +15,24 @@ White='\033[0;37m'        # White
 # Set environment to minikube
 eval $(minikube docker-env)
 
-echo -e "${Purple}--------------------------- Secret ------------------------------${Color_Off}"
+echo -e "${Purple}---------------------------- Secret ------------------------------${Color_Off}"
 kubectl create -f srcs/secret/system_secret.yml
 echo -e "\n"
 
-echo -e "${Purple}--------------------------- Nginx ------------------------------${Color_Off}"
+echo -e "${Purple}----------------------------- Nginx ------------------------------${Color_Off}"
 cd srcs/nginx
 docker build -t nginx_rbakker .
 cd -
 kubectl create -f srcs/nginx/nginx_deployment.yml
 echo -e "\n"
 
-echo -e "${Purple}-------------------- Ingress controller -------------------------${Color_Off}"
+echo -e "${Purple}---------------------- Ingress controller ------------------------${Color_Off}"
 minikube addons enable ingress
 sleep 45
 kubectl create -f srcs/ingress/ingress-deployment.yml
 echo -e "\n"
 
-echo -e "${Purple}--------------------------- Mysql -------------------------------${Color_Off}"
+echo -e "${Purple}--------------------------- Mysql --------------------------------${Color_Off}"
 kubectl create -f srcs/mysql/mysql-pvc.yml
 kubectl create -f srcs/mysql/mysql-deployment.yml
 echo -e "\n"
@@ -45,20 +45,22 @@ echo -e "${Purple}-------------------------- Wordpress -------------------------
 kubectl create -f srcs/wordpress/wordpress-deployment.yml
 echo -e "\n"
 
-echo -e "${Purple}-------------------------- InfluxDB -----------------------------${Color_Off}"
+echo -e "${Purple}-------------------------- InfluxDB ------------------------------${Color_Off}"
 kubectl create -f srcs/influxDB/influxdb-deployment.yml
 kubectl create -f srcs/influxDB/influxdb-pvc.yml
 echo -e "\n"
 
-echo -e "${Purple}-------------------------- Telegraf -----------------------------${Color_Off}"
-#kubectl create -f srcs/telegraf/telegraf-deployment.yml
+echo -e "${Purple}-------------------------- Telegraf ------------------------------${Color_Off}"
+minikube addons enable metrics-server
+sleep 45
+kubectl create -f srcs/telegraf/telegraf-deployment.yml
 echo -e "\n"
 
-echo -e "${Purple}-------------------------- Grafana -----------------------------${Color_Off}"
+echo -e "${Purple}-------------------------- Grafana -------------------------------${Color_Off}"
 kubectl create -f srcs/grafana/grafana-deployment.yml
 echo -e "\n"
 
-echo -e "${Green}---------------------- Cluster overview --------------------------${Color_Off}"
+echo -e "${Green}---------------------- Cluster overview ---------------------------${Color_Off}"
 sleep 30
 kubectl get all
 echo -e "\n"

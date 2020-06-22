@@ -56,6 +56,11 @@ echo -e "\n"
 echo -e "${Yellow}-------------------------- Telegraf -----------------------------${Color_Off}"
 kubectl delete deployment/telegraf-deployment
 kubectl delete service/telegraf-service
+kubectl delete configmap/telegraf-config
+
+kubectl delete clusterRole/influx:cluster:viewer
+kubectl delete clusterRole/influx:telegraf
+kubectl delete  ClusterRoleBinding/influx:telegraf:viewer
 echo -e "\n"
 
 echo -e "${Green}Cluster cleaned${Color_Off}"

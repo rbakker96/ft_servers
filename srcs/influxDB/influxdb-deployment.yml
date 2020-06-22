@@ -3,10 +3,12 @@ kind: Service
 metadata:
   name: influxdb-service
 spec:
+  type: NodePort
   ports:
   - port: 8086
     protocol: TCP
     targetPort: 8086
+    nodePort: 8086
   selector:
     app: influxdb
 
@@ -35,8 +37,6 @@ spec:
         name: influxdb
         image: docker.io/influxdb:1.6.4
         imagePullPolicy: IfNotPresent
-        ports:
-          - containerPort: 3306
         volumeMounts:
           - mountPath: "/var/lib/influxdb"
             name: influxdb-pd   

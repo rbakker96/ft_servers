@@ -1,41 +1,150 @@
 apiVersion: v1
-kind: Secret
-metadata:
-  name: telegraf-secret
-type: Opaque
-stringData:
-  INFLUXDB_DB: aW5mbHV4ZGIK #influxdb
-  INFLUXDB_URL: http://influxdb:8086
-  INFLUXDB_USER: YWRtaW4 #admin
-  INFLUXDB_USER_PASSWORD: YWRtaW4 #admin
-
----
-
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: telegraf-config
 data:
   telegraf.conf: |+
+    # Telegraf Configuration
+    #
+    # Telegraf is entirely plugin driven. All metrics are gathered from the
+    # declared inputs, and sent to the declared outputs.
+    #
+    # Plugins must be declared in here to be active.
+    # To deactivate a plugin, comment out the name and any variables.
+    #
+    # Use 'telegraf -config telegraf.conf -test' to see what metrics a config
+    # file would generate.
+    #
+    # Environment variables can be used anywhere in this config file, simply surround
+    # them with ${}. For strings the variable must be within quotes (ie, "${STR_VAR}"),
+    # for numbers and booleans they should be plain (ie, ${INT_VAR}, ${BOOL_VAR})
+
+
+    # Global tags can be specified here in key="value" format.
+    [global_tags]
+      # dc = "us-east-1" # will tag all metrics with dc=us-east-1
+      # rack = "1a"
+      ## Environment variables can be used as tags, and throughout the config file
+      # user = "$USER"
+
+
+    # Configuration for telegraf agent
+    [agent]
+      ## Default data collection interval for all inputs
+      interval = "10s"
+      ## Rounds collection interval to 'interval'
+      ## ie, if interval="10s" then always collect on :00, :10, :20, etc.
+      round_interval = true
+
+      ## Telegraf will send metrics to outputs in batches of at most
+      ## metric_batch_size metrics.
+      ## This controls the size of writes that Telegraf sends to output plugins.
+      metric_batch_size = 1000
+
+      ## Maximum number of unwritten metrics per output.  Increasing this value
+      ## allows for longer periods of output downtime without dropping metrics at the
+      ## cost of higher maximum memory usage.
+      metric_buffer_limit = 10000
+
+      ## Collection jitter is used to jitter the collection by a random amount.
+      ## Each plugin will sleep for a random time within jitter before collecting.
+      ## This can be used to avoid many plugins querying things like sysfs at the
+      ## same time, which can have a measurable effect on the system.
+      collection_jitter = "0s"
+
+      ## Default flushing interval for all outputs. Maximum flush_interval will be
+      ## flush_interval + flush_jitter
+      flush_interval = "10s"
+      ## Jitter the flush interval by a random amount. This is primarily to avoid
+      ## large write spikes for users running a large number of telegraf instances.
+      ## ie, a jitter of 5s and interval 10s means flushes will happen every 10-15s
+      flush_jitter = "0s"
+
+      ## By default or when set to "0s", precision will be set to the same
+      ## timestamp order as the collection interval, with the maximum being 1s.
+      ##   ie, when interval = "10s", precision will be "1s"
+      ##       when interval = "250ms", precision will be "1ms"
+      ## Precision will NOT be used for service inputs. It is up to each individual
+      ## service input to set the timestamp at the appropriate precision.
+      ## Valid time units are "ns", "us" (or "µs"), "ms", "s".
+      precision = ""
+
+      ## Override default hostname, if empty use os.Hostname()
+      hostname = ""
+      ## If set to true, do no set the "host" tag in the telegraf agent.
+      omit_hostname = false
+
+
+    ###############################################################################
+    #                            OUTPUT PLUGINS                                   #
+    ###############################################################################
+
+    # Configuration for sending metrics to InfluxDB
     [[outputs.influxdb]]
+      ## The full HTTP or UDP URL for your InfluxDB instance.
+      ##
+      ## Multiple URLs can be specified for a single cluster, only ONE of the
+      ## urls will be written to each interval.
+      # urls = ["unix:///var/run/influxdb.sock"]
+      # urls = ["udp://127.0.0.1:8089"]
+      # urls = ["http://127.0.0.1:8086"]
       urls = ["$INFLUXDB_URL"]
-      database = "$INFLUXDB_DB"
-      username = "$INFLUXDB_USER"
-      password = "$INFLUXDB_USER_PASSWORD"
-# Statsd Server
-    [[inputs.statsd]]
-      max_tcp_connections = 250
-      tcp_keep_alive = false
-      service_address = ":8125"
-      delete_gauges = true
-      delete_counters = true
-      delete_sets = true
-      delete_timings = true
-      metric_separator = "."
-      allowed_pending_messages = 10000
-      percentile_limit = 1000
-      parse_data_dog_tags = true 
-      read_buffer_size = 65535
+
+      ## The target database for metrics; will be created as needed.
+      ## For UDP url endpoint database needs to be configured on server side.
+      database = "$INFLUXDB_DATABASE"
+
+      ## HTTP Basic Auth
+      username = "$INFLUXDB_USERNAME"
+      password = "$INFLUXDB_PASSWORD"
+
+      ## HTTP User-Agent
+      user_agent = "admin"
+
+
+    ###############################################################################
+    #                            INPUT PLUGINS                                    #
+    ###############################################################################
+
+    [[inputs.kube_inventory]]
+      ## URL for the Kubernetes API
+      url = "https://kubernetes"
+
+      ## Namespace to use. Set to "" to use all namespaces.
+      namespace = ""
+
+      ## Use bearer token for authorization. ('bearer_token' takes priority)
+      # bearer_token = "var/run/secrets/kubernetes.io/serviceaccount/token"
+      ## OR
+      bearer_token_string = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNUZjI3WUI4M1QxMHFfV1kyQTJfZy01LWM3cVR1Q2s1OUpsTkY5bUJDU0EifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZWZhdWx0LXRva2VuLTU3ajg4Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRlZmF1bHQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI5MWZmOTY0NS1mYzc0LTRjZjItOGYzYS1jY2NmMTI5NjJiMWUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06ZGVmYXVsdCJ9.DMgoISBaLfOdS_Bt-aktzJmDtzgW5zZAhHTFwtg8qcKg2cuCuOjeSmqCGr78YzrVDhaOxPV6mmvO8ecg-Xt50nltCzTZgoBUHCmHvnh6Ifek_lCCL1JHLYbrrulj3aBzmoiJx4wFwv0h5WRgHqRLIftc83c5Tq7Tb5fAkpkQW4FM2aZKnE_1049bUg2bCUyUSNbAgs6uVvS9DDVRox3Vy2JQqRu1_JMa0z9knUFXUg1SvifjJtBGB0TGJp-h7XwYKoFdsM6t7pQoHsYQmF5yziOQLAp7ZUwRT0I1RWLCMRgJ2i8jKaRUylsvZ3OFVABdP_obpNLNPefp_Xa5SUXKTA"
+
+      ## Set response_timeout (default 5 seconds)
+      response_timeout = "5s"
+
+      ## Optional Resources to exclude from gathering
+      ## Leave them with blank with try to gather everything available.
+      ## Values can be - "daemonsets", deployments", "nodes", "persistentvolumes",
+      ## "persistentvolumeclaims", "pods", "statefulsets"
+      # resource_exclude = [ "deployments", "nodes", "statefulsets" ]
+
+      ## Optional Resources to include when gathering
+      ## Overrides resource_exclude if both set.
+      # resource_include = [ "deployments", "nodes", "statefulsets" ]
+
+      ## Use TLS but skip chain & host verification
+      insecure_skip_verify = true
+
+
+    # Read metrics about cpu usage
+    [[inputs.cpu]]
+      ## Whether to report per-cpu stats or not
+      percpu = true
+      ## Whether to report total system cpu stats or not
+      totalcpu = true
+      ## If true, collect raw CPU time metrics.
+      collect_cpu_time = false
+      ## If true, compute and report the sum of all non-idle CPU states.
+      report_active = false
 
 ---
 
@@ -57,29 +166,81 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: telegraf
+  labels:
+    app: telegraf
+  name: telegraf-deployment
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: telegraf
-  minReadySeconds: 5
   template:
     metadata:
       labels:
         app: telegraf
     spec:
       containers:
-        - image: telegraf:1.10.0
-          name: telegraf
-          envFrom:
-            - secretRef:
-                name: telegraf-secrets
-          volumeMounts:
-            - name: telegraf-config-volume
-              mountPath: /etc/telegraf/telegraf.conf
-              subPath: telegraf.conf
-              readOnly: true
+      - envFrom:
+        - secretRef:
+              name: system-secret       
+        name: telegraf
+        image: telegraf:1.13-alpine
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /etc/telegraf/telegraf.conf
+            subPath: telegraf.conf
+            name: telegraf-config-volume   
       volumes:
-        - name: telegraf-config-volume
-          configMap:
-            name: telegraf-config
+          - name: telegraf-config-volume
+            configMap:
+              name: telegraf-config
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: influx:cluster:viewer
+  labels:
+    rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
+rules:
+- apiGroups: [""]
+  resources: 
+  - persistentvolumes
+  - nodes
+  - endpoints
+  - deployments
+  - services
+  - pods
+  - statefulsets
+  - daemonsets
+  - persistentvolumeclaims
+  verbs: ["get","list"]
+
+---
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: influx:telegraf
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
+  - matchLabels:
+      rbac.authorization.k8s.io/aggregate-to-view: "true"
+rules: [] # Rules are automatically filled in by the controller manager.
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: influx:telegraf:viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: influx:telegraf
+subjects:
+- kind: ServiceAccount
+  name: telegraf
+  namespace: default
