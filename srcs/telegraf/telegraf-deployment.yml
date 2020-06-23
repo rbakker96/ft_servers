@@ -19,15 +19,6 @@ data:
     # them with ${}. For strings the variable must be within quotes (ie, "${STR_VAR}"),
     # for numbers and booleans they should be plain (ie, ${INT_VAR}, ${BOOL_VAR})
 
-
-    # Global tags can be specified here in key="value" format.
-    [global_tags]
-      # dc = "us-east-1" # will tag all metrics with dc=us-east-1
-      # rack = "1a"
-      ## Environment variables can be used as tags, and throughout the config file
-      # user = "$USER"
-
-
     # Configuration for telegraf agent
     [agent]
       ## Default data collection interval for all inputs
@@ -69,12 +60,6 @@ data:
       ## Valid time units are "ns", "us" (or "µs"), "ms", "s".
       precision = ""
 
-      ## Override default hostname, if empty use os.Hostname()
-      hostname = ""
-      ## If set to true, do no set the "host" tag in the telegraf agent.
-      omit_hostname = false
-
-
     ###############################################################################
     #                            OUTPUT PLUGINS                                   #
     ###############################################################################
@@ -92,15 +77,11 @@ data:
 
       ## The target database for metrics; will be created as needed.
       ## For UDP url endpoint database needs to be configured on server side.
-      database = "$INFLUXDB_DATABASE"
+      database = "$INFLUXDB_DB"
 
       ## HTTP Basic Auth
-      username = "$INFLUXDB_USERNAME"
-      password = "$INFLUXDB_PASSWORD"
-
-      ## HTTP User-Agent
-      user_agent = "admin"
-
+      username = "$INFLUXDB_USER"
+      password = "$INFLUXDB_USER_PASSWORD"
 
     ###############################################################################
     #                            INPUT PLUGINS                                    #
@@ -116,7 +97,7 @@ data:
       ## Use bearer token for authorization. ('bearer_token' takes priority)
       # bearer_token = "var/run/secrets/kubernetes.io/serviceaccount/token"
       ## OR
-      bearer_token_string = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjNUZjI3WUI4M1QxMHFfV1kyQTJfZy01LWM3cVR1Q2s1OUpsTkY5bUJDU0EifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZWZhdWx0LXRva2VuLTU3ajg4Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImRlZmF1bHQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI5MWZmOTY0NS1mYzc0LTRjZjItOGYzYS1jY2NmMTI5NjJiMWUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06ZGVmYXVsdCJ9.DMgoISBaLfOdS_Bt-aktzJmDtzgW5zZAhHTFwtg8qcKg2cuCuOjeSmqCGr78YzrVDhaOxPV6mmvO8ecg-Xt50nltCzTZgoBUHCmHvnh6Ifek_lCCL1JHLYbrrulj3aBzmoiJx4wFwv0h5WRgHqRLIftc83c5Tq7Tb5fAkpkQW4FM2aZKnE_1049bUg2bCUyUSNbAgs6uVvS9DDVRox3Vy2JQqRu1_JMa0z9knUFXUg1SvifjJtBGB0TGJp-h7XwYKoFdsM6t7pQoHsYQmF5yziOQLAp7ZUwRT0I1RWLCMRgJ2i8jKaRUylsvZ3OFVABdP_obpNLNPefp_Xa5SUXKTA"
+      bearer_token_string = "eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3ZFZGdi0wWDdsZy14cDFpcy1DUmNiWjN5bjkyejVPU2JGaTNEUWFmZEUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4tdGtrYngiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjI3ZGEyY2M3LWYxZDMtNDY2ZS05ZGMyLTY3NzY0YTM5ZTUwNiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.gQhGIeAxMbjqbHbilUxJhOnJPRyZ7SmqjpIxcIk6WSQnzSAaz7rxYjDeh7G_g5dv5gF7SP5diQ3iIxjde6x5XtxNBMfMoQkq8d_eAUfr_n1FLukHeaGErW3DfqHrcJMgAEqiih-K5Q3I7Bf93RDkyeEHs3LYeUNBFeMAE5Yn20MaIW__tuyIDpIfwFhq5vDbzGVF0qhdLq71xAd2njgEvi62Nlwffsgh4835Z58dXbrJ7BVNX_ftON7LAfXAYEzqW-XYxsOBYHGE742a4nUDpxmAgZndMIVSaElFGoem0Zc8U44vlkS9fet7eT-2I7Y3I6P2r_6tVmSIpqRlepH_UQ"
 
       ## Set response_timeout (default 5 seconds)
       response_timeout = "5s"
@@ -157,7 +138,7 @@ spec:
   ports:
   - port: 8125
     protocol: UDP
-    targetPort: 8125
+    nodePort: 8125
   selector:
     app: telegraf
 
@@ -203,18 +184,19 @@ metadata:
   labels:
     rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
 rules:
-- apiGroups: [""]
-  resources: 
-  - persistentvolumes
-  - nodes
-  - endpoints
-  - deployments
-  - services
-  - pods
-  - statefulsets
-  - daemonsets
-  - persistentvolumeclaims
-  verbs: ["get","list"]
+  - apiGroups: [""]
+    resources:
+    - persistentvolumes
+    - nodes
+    - endpoints
+    - deployments
+    - services
+    - pods
+    - statefulsets
+    - daemonsets
+    - persistentvolumeclaims
+    - ingresses
+    verbs: ["get", "list"]
 
 ---
 
@@ -224,14 +206,12 @@ metadata:
   name: influx:telegraf
 aggregationRule:
   clusterRoleSelectors:
-  - matchLabels:
-      rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
-  - matchLabels:
-      rbac.authorization.k8s.io/aggregate-to-view: "true"
+    - matchLabels:
+        rbac.authorization.k8s.io/aggregate-view-telegraf: "true"
+    - matchLabels:
+        rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules: [] # Rules are automatically filled in by the controller manager.
-
 ---
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -241,6 +221,15 @@ roleRef:
   kind: ClusterRole
   name: influx:telegraf
 subjects:
-- kind: ServiceAccount
-  name: telegraf
-  namespace: default
+  - kind: ServiceAccount
+    name: telegraf-account
+    namespace: default
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: telegraf-account
+  labels:
+    app: telegraf

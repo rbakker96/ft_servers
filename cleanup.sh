@@ -61,6 +61,7 @@ kubectl delete configmap/telegraf-config
 kubectl delete clusterRole/influx:cluster:viewer
 kubectl delete clusterRole/influx:telegraf
 kubectl delete  ClusterRoleBinding/influx:telegraf:viewer
+kubectl delete  ServiceAccount/telegraf-account
 echo -e "\n"
 
 echo -e "${Green}Cluster cleaned${Color_Off}"

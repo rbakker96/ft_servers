@@ -6,9 +6,6 @@ spec:
   type: NodePort
   ports:
   - port: 8086
-    protocol: TCP
-    targetPort: 8086
-    nodePort: 8086
   selector:
     app: influxdb
 
@@ -35,8 +32,11 @@ spec:
         - secretRef:
               name: system-secret       
         name: influxdb
-        image: docker.io/influxdb:1.6.4
+        image: influxdb
         imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8086
+            name: influxdb
         volumeMounts:
           - mountPath: "/var/lib/influxdb"
             name: influxdb-pd   
