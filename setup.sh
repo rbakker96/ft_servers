@@ -11,6 +11,7 @@ White='\033[0;37m'        # White
 
 # Start cluster
 #minikube start --vm-driver virtualbox --extra-config=apiserver.service-node-port-range=80-10000
+#minikube start --driver=virtualbox --extra-config=apiserver.service-node-port-range=1-65535 --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true
 
 # Set environment to minikube
 eval $(minikube docker-env)
