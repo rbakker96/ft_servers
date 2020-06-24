@@ -46,18 +46,17 @@ kubectl create -f srcs/wordpress/wordpress-deployment.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- InfluxDB ------------------------------${Color_Off}"
-kubectl create -f srcs/influxDB/influxdb-deployment.yml
-kubectl create -f srcs/influxDB/influxdb-pvc.yml
+kubectl create -f srcs/influxDB/influxdb.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Telegraf ------------------------------${Color_Off}"
 minikube addons enable metrics-server
 sleep 45
-kubectl create -f srcs/telegraf/telegraf-deployment.yml
+kubectl create -f srcs/telegraf/telegraf.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Grafana -------------------------------${Color_Off}"
-kubectl create -f srcs/grafana/grafana-deployment.yml
+kubectl create -f srcs/grafana/grafana.yml
 echo -e "\n"
 
 echo -e "${Green}---------------------- Cluster overview ---------------------------${Color_Off}"

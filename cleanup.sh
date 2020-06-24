@@ -41,27 +41,21 @@ kubectl delete service/phpmyadmin-service
 echo -e "\n"
 
 echo -e "${Yellow}-------------------------- Grafana ------------------------------${Color_Off}"
-kubectl delete deployment/grafana-deployment
-kubectl delete service/grafana-service
+kubectl delete deployment/grafana
+kubectl delete service/grafana
 echo -e "\n"
 
 echo -e "${Yellow}-------------------------- InfluxDB -----------------------------${Color_Off}"
-kubectl delete deployment/influxdb-deployment
-kubectl delete service/influxdb-service
+kubectl delete deployment/influxdb
+kubectl delete service/influxdb
 
 kubectl delete pvc/influxdb-pvc
-kubectl delete pv/influxdb-pv
 echo -e "\n"
 
 echo -e "${Yellow}-------------------------- Telegraf -----------------------------${Color_Off}"
-kubectl delete deployment/telegraf-deployment
-kubectl delete service/telegraf-service
+kubectl delete deployment/telegraf
+kubectl delete service/telegraf
 kubectl delete configmap/telegraf-config
-
-kubectl delete clusterRole/influx:cluster:viewer
-kubectl delete clusterRole/influx:telegraf
-kubectl delete  ClusterRoleBinding/influx:telegraf:viewer
-kubectl delete  ServiceAccount/telegraf-account
 echo -e "\n"
 
 echo -e "${Green}Cluster cleaned${Color_Off}"
