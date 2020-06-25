@@ -41,3 +41,46 @@ spec:
               value: admin
             - name: GF_SECURITY_ADMIN_PASSWORD
               value: admin
+          volumeMounts:
+            - mountPath: /etc/grafana/provisioning/datasources/influxdb-datasource.yml
+              name: grafana-config-volume
+              readOnly: true
+              subPath: influxdb-datasource.yml
+            - mountPath: /etc/grafana/provisioning/dashboards/grafana-dashboard-provider.yml
+              name: grafana-config-volume
+              readOnly: true
+              subPath: grafana-dashboard-provider.yml
+            - mountPath: /var/lib/grafana/dashboards/grafana-dashboard.json
+              name: grafana-config-volume
+              readOnly: true
+              subPath: grafana-dashboard.json
+            - mountPath: /var/lib/grafana/dashboards/influxdb-dashboard.json
+              name: grafana-config-volume
+              readOnly: true
+              subPath: influxdb-dashboard.json
+            - mountPath: /var/lib/grafana/dashboards/mysql-dashboard.json
+              name: grafana-config-volume
+              readOnly: true
+              subPath: mysql-dashboard.json
+            - mountPath: /var/lib/grafana/dashboards/nginx-dashboard.json
+              name: grafana-config-volume
+              readOnly: true
+              subPath: nginx-dashboard.json
+            - mountPath: /var/lib/grafana/dashboards/phpmyadmin-dashboard.json
+              name: grafana-config-volume
+              readOnly: true
+              subPath: phpmyadmin-dashboard.json
+            - mountPath: /var/lib/grafana/dashboards/telegraf-dashboard.json
+              name: grafana-config-volume
+              readOnly: true
+              subPath: telegraf-dashboard.json
+            - mountPath: /var/lib/grafana/dashboards/wordpress-dashboard.json
+              name: grafana-config-volume
+              readOnly: true
+              subPath: wordpress-dashboard.json
+      volumes:
+      - name: grafana-config-volume
+        configMap:
+          name: grafana-config
+        
+

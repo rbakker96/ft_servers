@@ -42,6 +42,7 @@ echo -e "\n"
 echo -e "${Yellow}-------------------------- Grafana ------------------------------${Color_Off}"
 kubectl delete deployment/grafana
 kubectl delete service/grafana
+kubectl delete configMaps/grafana-config
 echo -e "\n"
 
 echo -e "${Yellow}-------------------------- InfluxDB -----------------------------${Color_Off}"

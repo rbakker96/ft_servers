@@ -56,6 +56,17 @@ kubectl create -f srcs/yaml_files/telegraf.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Grafana -------------------------------${Color_Off}"
+kubectl create configmap grafana-config \
+  --from-file=srcs/yaml_files/influxdb-datasource.yml \
+  --from-file=srcs/yaml_files/grafana-dashboard-provider.yml \
+  --from-file=srcs/json_files/grafana-dashboard.json \
+  --from-file=srcs/json_files/influxdb-dashboard.json \
+  --from-file=srcs/json_files/mysql-dashboard.json \
+  --from-file=srcs/json_files/nginx-dashboard.json \
+  --from-file=srcs/json_files/phpmyadmin-dashboard.json \
+  --from-file=srcs/json_files/telegraf-dashboard.json \
+  --from-file=srcs/json_files/wordpress-dashboard.json
+
 kubectl create -f srcs/yaml_files/grafana.yml
 echo -e "\n"
 
@@ -64,3 +75,4 @@ sleep 30
 kubectl get all
 echo -e "\n"
 echo -e "${Green}Go to $(minikube ip)${Color_Off}"
+echo -e "\n"
