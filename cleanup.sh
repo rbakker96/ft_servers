@@ -23,21 +23,20 @@ kubectl delete ingress/ingress-deployment
 echo -e "\n"
 
 echo -e "${Yellow}--------------------------- Mysql -------------------------------${Color_Off}"
-kubectl delete deployment/mysql-deployment
-kubectl delete services/mysql-service
+kubectl delete deployment/mysql
+kubectl delete services/mysql
 
 kubectl delete pvc/mysql-pvc
-kubectl delete pv/mysql-pv
 echo -e "\n"
 
 echo -e "${Yellow}-------------------------- Wordpress ---------------------------${Color_Off}"
-kubectl delete deployment/wordpress-deployment
-kubectl delete services wordpress-service
+kubectl delete deployment/wordpress
+kubectl delete services wordpress
 echo -e "\n"
 
 echo -e "${Yellow}------------------------- Phpmyadmin ----------------------------${Color_Off}"
-kubectl delete deployment/phpmyadmin-deployment
-kubectl delete service/phpmyadmin-service
+kubectl delete deployment/phpmyadmin
+kubectl delete service/phpmyadmin
 echo -e "\n"
 
 echo -e "${Yellow}-------------------------- Grafana ------------------------------${Color_Off}"

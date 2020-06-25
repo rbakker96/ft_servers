@@ -17,47 +17,46 @@ White='\033[0;37m'        # White
 eval $(minikube docker-env)
 
 echo -e "${Purple}---------------------------- Secret ------------------------------${Color_Off}"
-kubectl create -f srcs/secret/system_secret.yml
+kubectl create -f srcs/yaml_files/system_secret.yml
 echo -e "\n"
 
 echo -e "${Purple}----------------------------- Nginx ------------------------------${Color_Off}"
-cd srcs/nginx
+cd srcs/dockerfiles/nginx
 docker build -t nginx_rbakker .
 cd -
-kubectl create -f srcs/nginx/nginx.yml
+kubectl create -f srcs/yaml_files/nginx.yml
 echo -e "\n"
 
 echo -e "${Purple}---------------------- Ingress controller ------------------------${Color_Off}"
 minikube addons enable ingress
 sleep 45
-kubectl create -f srcs/ingress/ingress-deployment.yml
+kubectl create -f srcs/yaml_files/ingress-deployment.yml
 echo -e "\n"
 
 echo -e "${Purple}--------------------------- Mysql --------------------------------${Color_Off}"
-kubectl create -f srcs/mysql/mysql-pvc.yml
-kubectl create -f srcs/mysql/mysql-deployment.yml
+kubectl create -f srcs/yaml_files/mysql.yml
 echo -e "\n"
 
 echo -e "${Purple}------------------------- Phpmyadmin -----------------------------${Color_Off}"
-kubectl create -f srcs/phpmyadmin/phpmyadmin-deployment.yml
+kubectl create -f srcs/yaml_files/phpmyadmin.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Wordpress -----------------------------${Color_Off}"
-kubectl create -f srcs/wordpress/wordpress-deployment.yml
+kubectl create -f srcs/yaml_files/wordpress.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- InfluxDB ------------------------------${Color_Off}"
-kubectl create -f srcs/influxDB/influxdb.yml
+kubectl create -f srcs/yaml_files/influxdb.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Telegraf ------------------------------${Color_Off}"
 minikube addons enable metrics-server
 sleep 45
-kubectl create -f srcs/telegraf/telegraf.yml
+kubectl create -f srcs/yaml_files/telegraf.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Grafana -------------------------------${Color_Off}"
-kubectl create -f srcs/grafana/grafana.yml
+kubectl create -f srcs/yaml_files/grafana.yml
 echo -e "\n"
 
 echo -e "${Green}---------------------- Cluster overview ---------------------------${Color_Off}"
