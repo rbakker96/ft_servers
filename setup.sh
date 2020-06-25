@@ -20,6 +20,13 @@ echo -e "${Purple}---------------------------- Secret --------------------------
 kubectl create -f srcs/yaml_files/system_secret.yml
 echo -e "\n"
 
+echo -e "${Purple}-------------------------- Metalllb ------------------------------${Color_Off}"
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
+# On first install only
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+echo -e "\n"
+
 echo -e "${Purple}----------------------------- Nginx ------------------------------${Color_Off}"
 cd srcs/dockerfiles/nginx
 docker build -t nginx_rbakker .
@@ -27,11 +34,11 @@ cd -
 kubectl create -f srcs/yaml_files/nginx.yml
 echo -e "\n"
 
-echo -e "${Purple}---------------------- Ingress controller ------------------------${Color_Off}"
-minikube addons enable ingress
-sleep 45
-kubectl create -f srcs/yaml_files/ingress-deployment.yml
-echo -e "\n"
+#echo -e "${Purple}---------------------- Ingress controller ------------------------${Color_Off}"
+#minikube addons enable ingress
+#sleep 45
+#kubectl create -f srcs/yaml_files/ingress-deployment.yml
+#echo -e "\n"
 
 echo -e "${Purple}--------------------------- Mysql --------------------------------${Color_Off}"
 kubectl create -f srcs/yaml_files/mysql.yml
