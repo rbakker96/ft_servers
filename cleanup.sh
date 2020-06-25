@@ -14,8 +14,8 @@ kubectl delete secrets/system-secret
 echo -e "\n"
 
 echo -e "${Yellow}---------------------------- Nginx ------------------------------${Color_Off}"
-kubectl delete services nginx-server
-kubectl delete deployment nginx-deployment
+kubectl delete services nginx
+kubectl delete deployment nginx
 echo -e "\n"
 
 echo -e "${Yellow}-------------------- Ingress controller -------------------------${Color_Off}"

@@ -10,7 +10,7 @@ Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
 # Start cluster
-#minikube start --vm-driver virtualbox --extra-config=apiserver.service-node-port-range=80-10000
+#minikube start --vm-driver virtualbox --extra-config=apiserver.service-node-port-range=80-65000
 #minikube start --driver=virtualbox --extra-config=apiserver.service-node-port-range=1-65535 --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true
 
 # Set environment to minikube
@@ -24,7 +24,7 @@ echo -e "${Purple}----------------------------- Nginx --------------------------
 cd srcs/nginx
 docker build -t nginx_rbakker .
 cd -
-kubectl create -f srcs/nginx/nginx_deployment.yml
+kubectl create -f srcs/nginx/nginx.yml
 echo -e "\n"
 
 echo -e "${Purple}---------------------- Ingress controller ------------------------${Color_Off}"
