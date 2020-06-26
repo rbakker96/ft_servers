@@ -18,10 +18,6 @@ kubectl delete services nginx
 kubectl delete deployment nginx
 echo -e "\n"
 
-echo -e "${Yellow}-------------------- Ingress controller -------------------------${Color_Off}"
-kubectl delete ingress/ingress-deployment
-echo -e "\n"
-
 echo -e "${Yellow}--------------------------- Mysql -------------------------------${Color_Off}"
 kubectl delete deployment/mysql
 kubectl delete services/mysql

@@ -7,10 +7,10 @@ metadata:
 spec:
     ports:
     - port: 3000
-      nodePort: 3000
+      targetPort: 3000
     selector:
       app: grafana
-    type: NodePort
+    type: LoadBalancer
 
 ---
 
@@ -82,5 +82,5 @@ spec:
       - name: grafana-config-volume
         configMap:
           name: grafana-config
-        
+
 

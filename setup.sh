@@ -10,7 +10,7 @@ Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
 # Start cluster
-#minikube start --vm-driver virtualbox --extra-config=apiserver.service-node-port-range=80-65000
+#minikube start --vm-driver virtualbox --memory 3000 --extra-config=apiserver.service-node-port-range=80-65000
 #minikube start --driver=virtualbox --extra-config=apiserver.service-node-port-range=1-65535 --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true
 
 # Set environment to minikube
@@ -25,6 +25,7 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manife
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
 # On first install only
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+kubectl create -f srcs/yaml_files/metallb.yml
 echo -e "\n"
 
 echo -e "${Purple}----------------------------- Nginx ------------------------------${Color_Off}"
@@ -33,12 +34,6 @@ docker build -t nginx_rbakker .
 cd -
 kubectl create -f srcs/yaml_files/nginx.yml
 echo -e "\n"
-
-#echo -e "${Purple}---------------------- Ingress controller ------------------------${Color_Off}"
-#minikube addons enable ingress
-#sleep 45
-#kubectl create -f srcs/yaml_files/ingress-deployment.yml
-#echo -e "\n"
 
 echo -e "${Purple}--------------------------- Mysql --------------------------------${Color_Off}"
 kubectl create -f srcs/yaml_files/mysql.yml

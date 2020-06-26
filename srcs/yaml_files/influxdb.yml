@@ -55,7 +55,7 @@ spec:
             - name: INFLUXDB_PASSWORD
               value: admin
             - name: INFLUXDB_HOST
-              value: 192.168.99.119
+              value: 192.168.99.105
           ports:
             - containerPort: 8086
               name: influxdb
@@ -66,4 +66,3 @@ spec:
         - name: influxdb-pv
           persistentVolumeClaim:
             claimName: influxdb-pvc
-

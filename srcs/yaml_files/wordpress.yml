@@ -5,10 +5,12 @@ metadata:
   labels:
     app: wordpress
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
-  - port: 80
-    nodePort: 5050
+  - name: http
+    protocol: TCP
+    port: 5050
+    targetPort: 80
   selector:
     app: wordpress
 
@@ -31,7 +33,7 @@ spec:
       containers:
       - envFrom:
         - secretRef:
-              name: system-secret        
+              name: system-secret
         name: wordpress
         image: wordpress:4.8-apache
         imagePullPolicy: IfNotPresent
