@@ -8,6 +8,7 @@ LABEL   rbakker nginx dockerfile
 RUN		apk update
 RUN		apk upgrade --available
 RUN		apk add wget
+RUN     apk add openssh
 
 # Install Nginx web server
 RUN		apk add nginx
@@ -28,6 +29,8 @@ COPY    srcs/index.html /www
 
 # Open access ports
 EXPOSE	80 443
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Start web-server
 RUN     mkdir -p /run/nginx
