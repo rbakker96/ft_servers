@@ -36,29 +36,29 @@ kubectl create -f srcs/yaml_files/nginx.yml
 echo -e "\n"
 
 echo -e "${Purple}--------------------------- Mysql --------------------------------${Color_Off}"
-kubectl create -f srcs/yaml_files/mysql.yml
+#kubectl create -f srcs/yaml_files/mysql.yml
 echo -e "\n"
 
 echo -e "${Purple}------------------------- Phpmyadmin -----------------------------${Color_Off}"
-kubectl create -f srcs/yaml_files/phpmyadmin.yml
+#kubectl create -f srcs/yaml_files/phpmyadmin.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Wordpress -----------------------------${Color_Off}"
-kubectl create -f srcs/yaml_files/wordpress.yml
+#kubectl create -f srcs/yaml_files/wordpress.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- InfluxDB ------------------------------${Color_Off}"
-kubectl create -f srcs/yaml_files/influxdb.yml
+#kubectl create -f srcs/yaml_files/influxdb.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Telegraf ------------------------------${Color_Off}"
-minikube addons enable metrics-server
-sleep 45
-kubectl create -f srcs/yaml_files/telegraf.yml
+#minikube addons enable metrics-server
+#sleep 45
+#kubectl create -f srcs/yaml_files/telegraf.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Grafana -------------------------------${Color_Off}"
-kubectl create configmap grafana-config \
+#kubectl create configmap grafana-config \
   --from-file=srcs/yaml_files/influxdb-datasource.yml \
   --from-file=srcs/yaml_files/grafana-dashboard-provider.yml \
   --from-file=srcs/json_files/grafana-dashboard.json \
@@ -69,11 +69,11 @@ kubectl create configmap grafana-config \
   --from-file=srcs/json_files/telegraf-dashboard.json \
   --from-file=srcs/json_files/wordpress-dashboard.json
 
-kubectl create -f srcs/yaml_files/grafana.yml
+#kubectl create -f srcs/yaml_files/grafana.yml
 echo -e "\n"
 
 echo -e "${Green}---------------------- Cluster overview ---------------------------${Color_Off}"
-sleep 30
+#sleep 30
 kubectl get all
 echo -e "\n"
 echo -e "${Green}Go to $(minikube ip)${Color_Off}"

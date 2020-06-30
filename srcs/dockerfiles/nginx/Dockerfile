@@ -27,11 +27,14 @@ RUN     chown -R www:www /var/lib/nginx
 RUN     chown -R www:www /www
 COPY    srcs/index.html /www
 
-# Open access ports
-EXPOSE	80 443
+# SSH server
+COPY    srcs/sshd_config /etc/ssh/
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# Open access ports
+EXPOSE	80 443 4000
 
 # Start web-server
 RUN     mkdir -p /run/nginx
-CMD     usr/sbin/nginx -g "daemon off;"
+RUN     mkdir -p /run/sshd
+COPY    srcs/start.sh /tmp
+CMD     sh /tmp/start.sh

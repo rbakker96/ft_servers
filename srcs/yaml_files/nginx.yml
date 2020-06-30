@@ -11,6 +11,11 @@ spec:
   - name: https
     targetPort: 443
     port: 443
+  - name: ssh
+    targetPort: 4000
+    nodePort: 4000
+    port: 4000
+    protocol: TCP
   selector:
     app: nginx
 
@@ -36,8 +41,15 @@ spec:
       - name: nginx-container
         image: nginx_rbakker
         imagePullPolicy: Never
+        env:
+          - name: SSH_USER
+            value: admin
+          - name: SSH_PSWD
+            value: admin
         ports:
           - containerPort: 80
             name: "http-server"
           - containerPort: 433
             name: "https-server"
+          - containerPort: 4000
+            name: "ssh-server"
