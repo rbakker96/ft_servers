@@ -28,13 +28,17 @@ RUN     chown -R www:www /www
 COPY    srcs/index.html /www
 
 # SSH server
-COPY    srcs/sshd_config /etc/ssh/
+RUN     addgroup sshgroup \
+	    && adduser -D admin \
+	    && echo "admin:password" | chpasswd \
+	    && ssh-keygen -A
+COPY    srcs/sshd_config /etc/ssh/sshd_config
 
 # Open access ports
 EXPOSE	80 443 4000
 
 # Start web-server
 RUN     mkdir -p /run/nginx
-RUN     mkdir -p /run/sshd
+
 COPY    srcs/start.sh /tmp
 CMD     sh /tmp/start.sh

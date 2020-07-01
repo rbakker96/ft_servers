@@ -41,11 +41,6 @@ spec:
       - name: nginx-container
         image: nginx_rbakker
         imagePullPolicy: Never
-        env:
-          - name: SSH_USER
-            value: admin
-          - name: SSH_PSWD
-            value: admin
         ports:
           - containerPort: 80
             name: "http-server"
