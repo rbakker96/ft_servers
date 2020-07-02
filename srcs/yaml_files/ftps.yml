@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ftps
+  labels:
+    app: ftps
+spec:
+  type: LoadBalancer
+  selector:
+    app: ftps
+  ports:
+  - port: 21
+    targetPort: 21
+    name: ftps
+  - port: 20
+    targetPort: 20
+    name: active
+  - port : 22000
+    targetPort: 22000
+    name: passive-00
+  - port : 22001
+    targetPort: 22001
+    name: passive-01
+  - port : 22002
+    targetPort: 22002
+    name: passive-02
+  - port : 22003
+    targetPort: 22003
+    name: passive-03
+  - port : 22004
+    targetPort: 22004
+    name: passive-04
+  - port : 22005
+    targetPort: 22005
+    name: passive-05
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ftps
+  template:
+    metadata:
+      labels:
+        app: ftps
+    spec:
+      containers:
+      - name: ftps
+        image: fauria/vsftpd
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: FTP_USER
+          value: "admin"
+        - name: FTP_PASS
+          value: "admin"
+        - name: PASV_ADDRESS
+          value: "192.168.99.204"
+        - name: PASV_MIN_PORT
+          value: "22000"
+        - name: PASV_MAX_PORT
+          value: "22005"        
+        ports:
+          - containerPort: 20
+          - containerPort: 21
+          - containerPort: 22000
+          - containerPort: 22001
+          - containerPort: 22002
+          - containerPort: 22003
+          - containerPort: 22004
+          - containerPort: 22005

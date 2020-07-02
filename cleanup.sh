@@ -54,4 +54,9 @@ kubectl delete service/telegraf
 kubectl delete configmap/telegraf-config
 echo -e "\n"
 
+echo -e "${Yellow}-------------------------- Telegraf -----------------------------${Color_Off}"
+kubectl delete deployment/ftps
+kubectl delete service/ftps
+echo -e "\n"
+
 echo -e "${Green}Cluster cleaned${Color_Off}"

@@ -72,6 +72,10 @@ kubectl create configmap grafana-config \
 kubectl create -f srcs/yaml_files/grafana.yml
 echo -e "\n"
 
+echo -e "${Purple}--------------------------- FTPS ---------------------------------${Color_Off}"
+kubectl create -f srcs/yaml_files/ftps.yml
+echo -e "\n"
+
 echo -e "${Green}---------------------- Cluster overview ---------------------------${Color_Off}"
 sleep 30
 kubectl get all
