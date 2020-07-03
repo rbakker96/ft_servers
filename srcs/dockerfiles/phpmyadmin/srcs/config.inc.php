@@ -29,9 +29,11 @@ $i++;
 $cfg['Servers'][$i]['auth_type'] = 'cookie';
 $cfg['TempDir'] = '/tmp';
 /* Server parameters */
-$cfg['Servers'][$i]['user'] = 'root';
-$cfg['Servers'][$i]['host'] = 'localhost';
-$cfg['Servers'][$i]['connect_type'] = 'tcp';
+$cfg['Servers'][$i]['user'] = 'admin';
+$cfg['Servers'][$i]['password'] = 'admin';
+$cfg['Servers'][$i]['port'] = '3306';
+
+$cfg['Servers'][$i]['host'] = 'mysql';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = true;
 

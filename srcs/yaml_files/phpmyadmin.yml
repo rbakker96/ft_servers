@@ -10,7 +10,7 @@ spec:
     app: phpmyadmin
   ports:
   - port: 5000
-    targetPort: 80
+    targetPort: 5000
 
 ---
 
@@ -33,7 +33,7 @@ spec:
         - secretRef:
               name: system-secret
         name: phpmyadmin
-        image: phpmyadmin/phpmyadmin
-        imagePullPolicy: IfNotPresent
+        image: phpmyadmin_rbakker
+        imagePullPolicy: Never
         ports:
-          - containerPort: 80
+          - containerPort: 5000

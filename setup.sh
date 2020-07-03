@@ -40,6 +40,9 @@ kubectl create -f srcs/yaml_files/mysql.yml
 echo -e "\n"
 
 echo -e "${Purple}------------------------- Phpmyadmin -----------------------------${Color_Off}"
+cd srcs/dockerfiles/phpmyadmin
+docker build -t phpmyadmin_rbakker .
+cd -
 kubectl create -f srcs/yaml_files/phpmyadmin.yml
 echo -e "\n"
 

@@ -2,27 +2,33 @@
 FROM    alpine
 
 # Author
-LABEL   rbakker nginx dockerfile
+LABEL   rbakker phpmyadmin dockerfile
 
 # Update software packages
 RUN		apk update
 RUN		apk upgrade --available
 RUN		apk add wget
 
-# install PhP
-RUN		apk add php7.3 php-mysql php-fpm php-cli php-mbstring
+# Install PhpMyAdmin
+RUN		apk add php7 php7-fpm php7-opcache php7-gd php7-mysqli php7-zlib php7-curl php7-mbstring php7-json php7-session php7-zip
 
-# install phpMyAdmin
-RUN		mkdir -p /phpmyadmin
+# install PhpMyAdmin
+RUN		mkdir www
 RUN 	wget -c https://files.phpmyadmin.net/phpMyAdmin/4.9.0.1/phpMyAdmin-4.9.0.1-all-languages.tar.gz
 RUN		tar -xzvf phpMyAdmin-4.9.0.1-all-languages.tar.gz
-RUN		mv -v phpMyAdmin-4.9.0.1-all-languages/* /phpmyadmin
+RUN		mv -v phpMyAdmin-4.9.0.1-all-languages/* /www
 RUN		rm -rf phpMyAdmin-4.9.0.1-all-languages.tar.gz
 RUN		rm -rf phpMyAdmin-4.9.0.1-all-languages
-RUN		chmod -R 755 /phpmyadmin
 
-# php config
-RUN		mkdir -p /phpmyadmin/tmp
-RUN		chmod 777 /phpmyadmin/tmp
-COPY 	srcs/config.inc.php /phpmyadmin
+# Php config
+RUN		mkdir -p /www/tmp
+RUN		chmod 777 /www/tmp
+COPY 	srcs/config.inc.php /www
 COPY	srcs/php.ini /etc/php/7.3/fpm/php.ini
+
+# Open access ports
+EXPOSE	5000
+
+# Start PhphMyAdmin
+COPY    srcs/start.sh /www
+CMD     sh www/start.sh
