@@ -30,7 +30,7 @@ COPY    srcs/index.html /www
 # SSH server
 RUN     addgroup sshgroup \
 	    && adduser -D admin \
-	    && echo "admin:password" | chpasswd \
+	    && echo "admin:admin" | chpasswd \
 	    && ssh-keygen -A
 COPY    srcs/sshd_config /etc/ssh/sshd_config
 

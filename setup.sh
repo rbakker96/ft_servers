@@ -36,6 +36,9 @@ kubectl create -f srcs/yaml_files/nginx.yml
 echo -e "\n"
 
 echo -e "${Purple}--------------------------- Mysql --------------------------------${Color_Off}"
+cd srcs/dockerfiles/mysql
+docker build -t mysql_rbakker .
+cd -
 kubectl create -f srcs/yaml_files/mysql.yml
 echo -e "\n"
 

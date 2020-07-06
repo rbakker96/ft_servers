@@ -47,17 +47,16 @@ spec:
       containers:
       - envFrom:
         - secretRef:
-              name: system-secret        
+              name: system-secret
         name: mysql
-        image: "mysql:5.6"
-        imagePullPolicy: IfNotPresent
+        image: mysql_rbakker
+        imagePullPolicy: Never
         ports:
           - containerPort: 3306
         volumeMounts:
           - mountPath: "/var/lib/mysql"
-            name: mysql-pv   
+            name: mysql-pv
       volumes:
           - name: mysql-pv
             persistentVolumeClaim:
               claimName: mysql-pvc
- 

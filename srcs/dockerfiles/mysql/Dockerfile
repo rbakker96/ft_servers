@@ -1,0 +1,28 @@
+# Pull basic image
+FROM        alpine:latest
+
+# Author
+LABEL       rbakker mysql dockerfile
+
+# Update software packages
+RUN	    	apk update
+RUN		    apk upgrade --available
+
+# Install mysql
+RUN         apk add --no-cache mysql mysql-client
+RUN         rm -f /var/cache/apk/*
+
+# Set right configuration
+RUN         addgroup mysql mysql
+COPY        srcs/my.cnf /etc/mysql/my.cnf
+
+# Create right environment
+VOLUME      [ "/var/lib/mysql" ]
+
+# Open access ports
+EXPOSE      3306
+
+# Start Mysql
+COPY        srcs/start.sh .
+RUN         chmod +x ./start.sh
+ENTRYPOINT  ["./start.sh"]
