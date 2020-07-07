@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# parameters
+MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+MYSQL_USER_NAME=${MYSQL_USER_NAME}
+MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+MYSQL_DB_NAME=${MYSQL_DB_NAME}
+
 if [ ! -d "/run/mysqld" ]; then
 	mkdir -p /run/mysqld
 	chown -R mysql:mysql /run/mysqld
@@ -17,6 +23,8 @@ else
 	mysql_install_db --user=mysql --datadir=/var/lib/mysql > /dev/null
 	echo 'Database initialized'
 
+	chown -R mysql:mysql /var/lib/mysql
+
 	echo "[i] MySql root password: $MYSQL_ROOT_PASSWORD"
 
 	# create temp file
@@ -31,26 +39,26 @@ else
 USE mysql;
 FLUSH PRIVILEGES;
 DELETE FROM mysql.user;
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION;
-GRANT SELECT, SHOW VIEW, PROCESS ON *.* TO '$MYSQL_USER_MONITORING'@'%' IDENTIFIED BY '$MYSQL_PASSWORD_MONITORING' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION;
 EOF
 
-
 	# Create new database
-	if [ "$MYSQL_DATABASE" != "" ]; then
-		echo "[i] Creating database: $MYSQL_DATABASE"
-		echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DATABASE\` CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
+	if [ "$MYSQL_DB_NAME" != "" ]; then
+		echo "[i] Creating database: $MYSQL_DB_NAME"
+		echo "CREATE DATABASE $MYSQL_DB_NAME CHARACTER SET utf8 COLLATE utf8_general_ci;" >> $tfile
 
 		# set new User and Password
-		if [ "$MYSQL_USER" != "" ] && [ "$MYSQL_PASSWORD" != "" ]; then
-		echo "[i] Creating user: $MYSQL_USER with password $MYSQL_PASSWORD"
-		echo "GRANT ALL ON \`$MYSQL_DATABASE\`.* to '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
+		if [ "$MYSQL_USER_NAME" != "" ] && [ "$MYSQL_USER_PASSWORD" != "" ]; then
+		echo "[i] Creating user: $MYSQL_USER_NAME with password $MYSQL_USER_PASSWORD"
+		echo "CREATE USER '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';" >> $tfile
+		echo "GRANT ALL ON $MYSQL_DB_NAME.* to '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD' WITH GRANT OPTION;" >> $tfile
 		fi
 	else
 		# don`t need to create new database,Set new User to control all database.
-		if [ "$MYSQL_USER" != "" ] && [ "$MYSQL_PASSWORD" != "" ]; then
-		echo "[i] Creating user: $MYSQL_USER with password $MYSQL_PASSWORD"
-		echo "GRANT ALL ON *.* to '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" >> $tfile
+		if [ "$MYSQL_USER_NAME" != "" ] && [ "$MYSQL_USER_PASSWORD" != "" ]; then
+		echo "[i] Creating user: $MYSQL_USER_NAME with password $MYSQL_USER_PASSWORD"
+		echo "CREATE USER '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';" >> $tfile
+		echo "GRANT ALL PRIVILEGES ON *.* to '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';" >> $tfile
 		fi
 	fi
 
@@ -65,5 +73,5 @@ fi
 echo "[i] Sleeping 5 sec"
 sleep 5
 
-echo "Starting all process"
+echo '[i] start running mysqld'
 exec /usr/bin/mysqld --user=mysql --datadir=/var/lib/mysql --console
