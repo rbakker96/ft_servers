@@ -58,7 +58,7 @@ kubectl create -f srcs/yaml_files/influxdb.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Telegraf ------------------------------${Color_Off}"
-#minikube addons enable metrics-server
+minikube addons enable metrics-server
 sleep 45
 cd srcs/dockerfiles/telegraf
 docker build -t telegraf_rbakker .
