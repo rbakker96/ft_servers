@@ -1,10 +1,3 @@
-#!/bin/sh
-
-# parameters
-MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-MYSQL_USER_NAME=${MYSQL_USER_NAME}
-MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
-MYSQL_DB_NAME=${MYSQL_DB_NAME}
 
 if [ ! -d "/run/mysqld" ]; then
 	mkdir -p /run/mysqld
