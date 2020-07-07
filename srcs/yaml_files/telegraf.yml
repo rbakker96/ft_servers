@@ -32,7 +32,8 @@ spec:
     spec:
       containers:
         - name: telegraf
-          image: telegraf:1.13-alpine
+          image: telegraf_rbakker
+          imagePullPolicy: Never
           env:
             - name: INFLUXDB_DB
               value: influxdb-database

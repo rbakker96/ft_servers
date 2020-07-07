@@ -17,10 +17,10 @@ RUN         addgroup mysql mysql
 COPY        srcs/my.cnf /etc/mysql/my.cnf
 
 # Create right environment
-ENV         MYSQL_ROOT_PASSWORD admin
-ENV         MYSQL_USER_NAME admin
-ENV         MYSQL_USER_PASSWORD admin
-ENV         MYSQL_DB_NAME wordpress
+ENV         MYSQL_ROOT_PASSWORD=admin
+ENV         MYSQL_USER_NAME=admin
+ENV         MYSQL_USER_PASSWORD=admin
+ENV         MYSQL_DB_NAME=wordpress
 VOLUME      [ "/var/lib/mysql" ]
 
 # Open access ports
