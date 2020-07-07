@@ -54,6 +54,9 @@ kubectl create -f srcs/yaml_files/wordpress.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- InfluxDB ------------------------------${Color_Off}"
+cd srcs/dockerfiles/influxdb
+docker build -t influxdb_rbakker .
+cd -
 kubectl create -f srcs/yaml_files/influxdb.yml
 echo -e "\n"
 
