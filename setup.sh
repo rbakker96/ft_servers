@@ -10,7 +10,7 @@ Cyan='\033[0;36m'         # Cyan
 White='\033[0;37m'        # White
 
 # Start cluster
-#minikube start --vm-driver virtualbox --memory 3000 --extra-config=apiserver.service-node-port-range=80-65000
+#minikube start --vm-driver virtualbox --memory 3000 --addons metrics-server --extra-config=apiserver.service-node-port-range=80-65000
 #minikube start --driver=virtualbox --extra-config=apiserver.service-node-port-range=1-65535 --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true
 
 # Set environment to minikube
@@ -61,8 +61,8 @@ kubectl create -f srcs/yaml_files/influxdb.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Telegraf ------------------------------${Color_Off}"
-minikube addons enable metrics-server
-sleep 45
+#minikube addons enable metrics-server
+#sleep 45
 cd srcs/dockerfiles/telegraf
 docker build -t telegraf_rbakker .
 cd -
@@ -70,6 +70,9 @@ kubectl create -f srcs/yaml_files/telegraf.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Grafana -------------------------------${Color_Off}"
+cd srcs/dockerfiles/grafana
+docker build -t grafana_rbakker .
+cd -
 kubectl create configmap grafana-config \
   --from-file=srcs/yaml_files/influxdb-datasource.yml \
   --from-file=srcs/yaml_files/grafana-dashboard-provider.yml \

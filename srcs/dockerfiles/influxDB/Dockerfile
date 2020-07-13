@@ -15,7 +15,7 @@ RUN     apk add influxdb
 VOLUME [ "/var/lib/influxdb" ]
 
 # Open access ports
-EXPOSE	5000
+EXPOSE	8086
 
 # Start influxdb
 COPY    srcs/start.sh /tmp
