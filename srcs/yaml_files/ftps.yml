@@ -52,8 +52,8 @@ spec:
     spec:
       containers:
       - name: ftps
-        image: fauria/vsftpd
-        imagePullPolicy: IfNotPresent
+        image: ftps_rbakker
+        imagePullPolicy: Never
         env:
         - name: FTP_USER
           value: "admin"
@@ -64,7 +64,7 @@ spec:
         - name: PASV_MIN_PORT
           value: "22000"
         - name: PASV_MAX_PORT
-          value: "22005"        
+          value: "22005"
         ports:
           - containerPort: 20
           - containerPort: 21

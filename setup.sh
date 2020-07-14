@@ -86,6 +86,9 @@ kubectl create -f srcs/yaml_files/grafana.yml
 echo -e "\n"
 
 echo -e "${Purple}--------------------------- FTPS ---------------------------------${Color_Off}"
+cd srcs/dockerfiles/ftps
+docker build -t ftps_rbakker .
+cd -
 kubectl create -f srcs/yaml_files/ftps.yml
 echo -e "\n"
 

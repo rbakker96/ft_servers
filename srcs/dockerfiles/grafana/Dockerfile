@@ -32,8 +32,8 @@ RUN     addgroup -S grafana
 RUN     adduser -S grafana -G grafana
 
 # Configure Grafana
-RUN     mkdir -p "$GF_PATHS_HOME/.aws" "$GF_PATHS_PROVISIONING/datasources" "$GF_PATHS_PROVISIONING/dashboards" "$GF_PATHS_PROVISIONING/notifiers" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" "$GF_PATHS_DATA" \
-RUN     chown -R grafana:grafana "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" "$GF_PATHS_PROVISIONING" \
+RUN     mkdir -p "$GF_PATHS_HOME/.aws" "$GF_PATHS_PROVISIONING/datasources" "$GF_PATHS_PROVISIONING/dashboards" "$GF_PATHS_PROVISIONING/notifiers" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" "$GF_PATHS_DATA"
+RUN     chown -R grafana:grafana "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" "$GF_PATHS_PROVISIONING"
 RUN     chmod -R 777 "$GF_PATHS_DATA" "$GF_PATHS_HOME/.aws" "$GF_PATHS_LOGS" "$GF_PATHS_PLUGINS" "$GF_PATHS_PROVISIONING"
 
 COPY    srcs/grafana.ini /etc/grafana/grafana.ini
