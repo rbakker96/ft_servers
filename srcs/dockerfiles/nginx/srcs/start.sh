@@ -1,2 +1,4 @@
-/usr/sbin/sshd
-usr/sbin/nginx -g "daemon off;"
+#!/bin/bash
+
+sshd
+nginx -g "daemon off;"
