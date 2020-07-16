@@ -10,7 +10,7 @@ spec:
   - name: http
     protocol: TCP
     port: 5050
-    targetPort: 80
+    targetPort: 5050
   selector:
     app: wordpress
 
@@ -35,7 +35,7 @@ spec:
         - secretRef:
               name: system-secret
         name: wordpress
-        image: wordpress:4.8-apache
-        imagePullPolicy: IfNotPresent
+        image: wordpress_rbakker
+        imagePullPolicy: Never
         ports:
-          - containerPort: 80
+          - containerPort: 5050

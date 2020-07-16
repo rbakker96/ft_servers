@@ -50,6 +50,9 @@ kubectl create -f srcs/yaml_files/phpmyadmin.yml
 echo -e "\n"
 
 echo -e "${Purple}-------------------------- Wordpress -----------------------------${Color_Off}"
+cd srcs/dockerfiles/wordpress
+docker build -t wordpress_rbakker .
+cd -
 kubectl create -f srcs/yaml_files/wordpress.yml
 echo -e "\n"
 

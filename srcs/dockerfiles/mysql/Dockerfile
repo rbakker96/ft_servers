@@ -23,10 +23,15 @@ ENV         MYSQL_USER_PASSWORD=admin
 ENV         MYSQL_DB_NAME=wordpress
 VOLUME      [ "/var/lib/mysql" ]
 
+# Wordpress instalation
+COPY        srcs/wordpress.sh /
+RUN         chmod +x /wordpress.sh
+COPY        srcs/wordpress.sql /
+
 # Open access ports
 EXPOSE      3306
 
 # Start Mysql
-COPY        srcs/start.sh .
-RUN         chmod +x ./start.sh
-ENTRYPOINT  ["./start.sh"]
+COPY        srcs/start.sh /
+RUN         chmod +x /start.sh
+CMD         sh /start.sh

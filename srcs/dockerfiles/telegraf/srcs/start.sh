@@ -1,4 +1,3 @@
-
 while :
 do
     curl http://influxdb:8086/ping
