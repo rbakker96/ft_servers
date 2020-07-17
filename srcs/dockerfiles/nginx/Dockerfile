@@ -25,7 +25,13 @@ RUN     adduser -D -g 'www' www
 RUN     mkdir /www
 RUN     chown -R www:www /var/lib/nginx
 RUN     chown -R www:www /www
+
+# Add homepage files to webserver
 COPY    srcs/index.html /www
+RUN 	mkdir /www/img
+COPY 	srcs/img/* /www/img/
+RUN 	mkdir /www/css
+COPY  	srcs/style.css /www/css/
 
 # SSH server
 RUN     addgroup sshgroup \

@@ -44,7 +44,7 @@ echo -e "\n"
 echo -e "${Yellow}-------------------------- InfluxDB -----------------------------${Color_Off}"
 kubectl delete deployment/influxdb
 kubectl delete service/influxdb
-
+sed -i "" "s|$(minikube ip)|MINIKUBE_IP|g" srcs/yaml_files/influxdb.yml
 kubectl delete pvc/influxdb-pvc
 echo -e "\n"
 

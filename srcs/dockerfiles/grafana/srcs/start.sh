@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 exec su-exec grafana grafana-server  						            \
   --homepath="$GF_PATHS_HOME"                               \

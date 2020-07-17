@@ -11,7 +11,6 @@ White='\033[0;37m'        # White
 
 # Start cluster
 #minikube start --vm-driver virtualbox --memory 3000 --addons metrics-server --extra-config=apiserver.service-node-port-range=80-65000
-#minikube start --driver=virtualbox --extra-config=apiserver.service-node-port-range=1-65535 --bootstrapper=kubeadm --extra-config=kubelet.authentication-token-webhook=true
 
 # Set environment to minikube
 eval $(minikube docker-env)
@@ -60,6 +59,7 @@ echo -e "${Purple}-------------------------- InfluxDB --------------------------
 cd srcs/dockerfiles/influxdb
 docker build -t influxdb_rbakker .
 cd -
+sed -i "" "s|MINIKUBE_IP|$(minikube ip)|g" srcs/yaml_files/influxdb.yml
 kubectl create -f srcs/yaml_files/influxdb.yml
 echo -e "\n"
 

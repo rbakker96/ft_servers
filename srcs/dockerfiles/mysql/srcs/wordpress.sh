@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#starting sql
+#Starting sql
 printf 'Waiting for mysql'
 until mysql
 do
@@ -9,7 +9,7 @@ do
 done
 printf '\n'
 
-# sending commands into commands.sql
+# Sending commands into commands.sql
 cat << EOF > commands.sql
 USE mysql;
 CREATE USER 'admin'@'%';
@@ -18,7 +18,7 @@ SET PASSWORD FOR 'admin'@'%' = PASSWORD('admin');
 FLUSH PRIVILEGES;
 EOF
 
-# sending commands into mysql
+# Sending commands into mysql
 mysql -u root -e 'CREATE DATABASE wordpress;'
 mysql -u root wordpress < /wordpress.sql
 mysql -u root < commands.sql

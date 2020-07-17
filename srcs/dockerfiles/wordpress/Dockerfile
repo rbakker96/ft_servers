@@ -23,7 +23,7 @@ RUN     chown -R www:www /var/lib/nginx
 RUN     chown -R www:www /www
 
 # Configure php
-COPY	srcs/php.ini /etc/php/7.3/fpm/php.ini
+COPY	srcs/php.ini /etc/php7/php.ini
 COPY 	srcs/config.inc.php /www
 RUN     sed -i "s|;listen.owner\s*=\s*nobody|listen.owner = www|g" /etc/php7/php-fpm.d/www.conf ;\
         sed -i "s|;listen.group\s*=\s*nobody|listen.group = www|g" /etc/php7/php-fpm.d/www.conf ;\
@@ -32,7 +32,7 @@ RUN     sed -i "s|;listen.owner\s*=\s*nobody|listen.owner = www|g" /etc/php7/php
         sed -i "s|group\s*=\s*nobody|group = www|g" /etc/php7/php-fpm.d/www.conf ;\
         sed -i "s|;log_level\s*=\s*notice|log_level = notice|g" /etc/php7/php-fpm.d/www.conf ;
 
-#install wordpress
+# Install wordpress
 RUN     wget -c https://wordpress.org/latest.tar.gz
 RUN     tar -xzvf latest.tar.gz -C /www
 COPY    srcs/wp-config.php /www/wordpress/wp-config.php
