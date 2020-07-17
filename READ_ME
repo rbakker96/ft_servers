@@ -27,17 +27,20 @@ chmod +x ~/goinfre/minikube
 export MINIKUBE_HOME=/Volumes/Storage/goinfre/rbakker/minikube/
 
 
+------------- VIRTUALBOX ---------------
+If you don't have virtualbox installed dot his with MSC
+
+
 ---------------- FTPS ------------------
 To check the FTPS server a filezilla client is needed
 
 FileZilla download link
 https://dl1.cdn.filezilla-project.org/client/FileZilla_3.48.1_macosx-x86.app.tar.bz2?h=kZVZGu7vGVngVkZyQWdQ_A&x=1593598398
 
+
 ----------------- SSH ------------------
 To fix "man in the middle" attach you must cleanup you know host file to avoid conflicts
 
-go to >> /Users/rbakker/.ssh (replace with your intra name)
-
+>> /Users/rbakker/.ssh (replace with your intra name)
 >> open know_hosts
-
 >> remove conflicting host
