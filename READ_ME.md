@@ -86,5 +86,9 @@ $ go to 192.168.99.200
 ### Used resources
 > Most noteworthy resources used during this project
 
-- <a href="https://www.geeksforgeeks.org/input-output-system-calls-c-create-open-close-read-write/" target="_blank">File Descripter / open / read</a>
-- <a href="https://www.geeksforgeeks.org/static-variables-in-c/" target="_blank">Static Variables in C</a>
+- <a href="https://www.udemy.com/course/learn-kubernetes/" target="_blank">Kubernetes for the Absolute Beginners - Mumshad Mannambeth</a>
+- <a href="https://kubernetes.io/" target="_blank">Kubernetes resources</a>
+- <a href="https://www.digitalocean.com/community/tutorials/ssh-essentials-working-with-ssh-servers-clients-and-keys" target="_blank">SSH essentials</a>
+- <a href="https://blog.gojekengineering.com/diy-set-up-telegraf-influxdb-grafana-on-kubernetes-d55e32f8ce48" target="_blank">TIG stack</a>
+- <a href="https://dzone.com/articles/monitoring-kubernetes-architecture" target="_blank">Monitoring Kubernetes Architecture</a>
+- <a href="https://hub.docker.com/" target="_blank">Docker Hub - Environment Variables reference</a>
